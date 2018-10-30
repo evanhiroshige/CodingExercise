@@ -50,12 +50,14 @@ public class FindDuplicates {
     for (int i = 1; i < a.length; i++) {
       String a1 = a[i];
       String b1 = b[i];
+      // if field is email, don't compare suffix
       if (i == 4) {
         a1 = a1.substring(0, a1.indexOf('@'));
         b1 = b1.substring(0, b1.indexOf('@'));
       }
 
-      if (mp.isMetaphoneEqual(a1, b1)) {
+      // if fields are/sound the same, don't add to sum;
+      if (a1.equals(b1) || mp.isMetaphoneEqual(a1, b1)) {
         continue;
       }
       sum += Levenshtein.distance(a1, b1);
@@ -63,6 +65,7 @@ public class FindDuplicates {
     return sum;
   }
 
+  // Finds duplicates in users
   public String findDups() {
     for (int i = 0; i < distances.length - 1; i++) {
       for (int k = i + 1; k < distances.length - 1; k++) {
@@ -80,7 +83,7 @@ public class FindDuplicates {
     return dupsToString();
   }
 
-
+  // Returns string of results
   private String dupsToString() {
     StringBuilder output = new StringBuilder();
     int count = 1;
@@ -94,7 +97,6 @@ public class FindDuplicates {
       for (String[] dup : duplicates.get(s)) {
         output.append(Arrays.toString(dup));
         output.append('\n');
-
       }
       output.append('\n');
     }
@@ -107,7 +109,6 @@ public class FindDuplicates {
     }
     return output.toString();
   }
-
 
   public static void main(String[] args) {
     FindDuplicates fd = new FindDuplicates();
