@@ -18,14 +18,14 @@ public class FindDuplicates {
   private HashSet<String[]> nonDuplicates;
   private HashMap<String[], List<String[]>> duplicates;
 
-  public FindDuplicates() {
+  public FindDuplicates(String csv) {
     duplicates = new HashMap<>();
     nonDuplicates = new HashSet<>();
     users = new ArrayList<>();
 
     Scanner scanner;
     try {
-      scanner = new Scanner(new File("normal.csv"));
+      scanner = new Scanner(new File(csv));
     } catch (
         FileNotFoundException e) {
       throw new IllegalArgumentException("could not find file.");
@@ -70,6 +70,7 @@ public class FindDuplicates {
 
   // Finds duplicates in users
   public String findDups() {
+    // This method is very slow, with more time a minhash may have been a better solution.
     for (int i = 0; i < distances.length - 1; i++) {
       for (int k = i + 1; k < distances.length - 1; k++) {
         distances[i][k] = getDistance(users.get(i), users.get(k));
@@ -111,11 +112,6 @@ public class FindDuplicates {
 
     }
     return output.toString();
-  }
-
-  public static void main(String[] args) {
-    FindDuplicates fd = new FindDuplicates();
-    System.out.println(fd.findDups());
   }
 
 }
