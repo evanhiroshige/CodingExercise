@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import org.apache.commons.codec.language.Metaphone;
@@ -10,8 +12,12 @@ public class FindDuplicates {
 
   private List<String[]> users;
   private int[][] distances;
+  private HashSet<String[]> nonDuplicates;
+  private HashMap<String[], List<String[]>> duplicates;
 
   public FindDuplicates() {
+    duplicates = new HashMap<>();
+    nonDuplicates = new HashSet<>();
     users = new ArrayList<>();
 
     Scanner scanner;
@@ -29,6 +35,7 @@ public class FindDuplicates {
       count++;
       String[] values = scanner.next().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
       users.add(values);
+      nonDuplicates.add(values);
     }
 
     distances = new int[count][count];
@@ -51,28 +58,55 @@ public class FindDuplicates {
     return sum;
   }
 
-  public void findDups() {
+  public String findDups() {
     for (int i = 0; i < distances.length - 1; i++) {
-      for (int k = i; k < distances.length - 1; k++) {
-        if (i == k) {
-          distances[i][k] = Integer.MAX_VALUE;
-          continue;
-        }
+      for (int k = i + 1; k < distances.length - 1; k++) {
         distances[i][k] = getDistance(users.get(i), users.get(k));
         if (distances[i][k] < 50) {
-          System.out.println(Arrays.toString(users.get(i)));
-          System.out.println(Arrays.toString(users.get(k)));
+          if (!duplicates.containsKey(users.get(i))) {
+            duplicates.put(users.get(i), new ArrayList<>());
+            nonDuplicates.remove(users.get(i));
+          }
+          duplicates.get(users.get(i)).add(users.get(k));
+          nonDuplicates.remove(users.get(k));
         }
       }
     }
-    for (int[] arr : distances) {
-      System.out.println(Arrays.toString(arr));
-    }
+    return dupsToString();
   }
+
+
+  private String dupsToString() {
+    StringBuilder output = new StringBuilder();
+    int count = 1;
+    for (String[] s : this.duplicates.keySet()) {
+      output.append("Duplicate set ");
+      output.append(count++);
+      output.append('\n');
+      output.append(Arrays.toString(s));
+      output.append('\n');
+
+      for (String[] dup : duplicates.get(s)) {
+        output.append(Arrays.toString(dup));
+        output.append('\n');
+
+      }
+      output.append('\n');
+    }
+
+    output.append("Non-duplicates\n");
+    for (String[] s : nonDuplicates) {
+      output.append(Arrays.toString(s));
+      output.append('\n');
+
+    }
+    return output.toString();
+  }
+
 
   public static void main(String[] args) {
     FindDuplicates fd = new FindDuplicates();
-    fd.findDups();
+    System.out.println(fd.findDups());
   }
 
 }
