@@ -1,17 +1,15 @@
 package com.example.demo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import org.apache.catalina.Loader;
 import org.apache.commons.codec.language.Metaphone;
+import org.springframework.core.io.ClassPathResource;
 
 public class FindDuplicates {
 
@@ -27,11 +25,13 @@ public class FindDuplicates {
 
     Scanner scanner;
     try {
-      scanner = new Scanner(new File(getClass().getResource("/" + csv).getFile()));
+      ClassPathResource resource = new ClassPathResource(csv);
+      InputStream is = resource.getInputStream();
+      scanner = new Scanner(is);
 
     } catch (
-        FileNotFoundException e) {
-      throw new IllegalArgumentException();
+         Exception e) {
+      throw new IllegalArgumentException(e.getMessage());
     }
 
     scanner.useDelimiter("\n");

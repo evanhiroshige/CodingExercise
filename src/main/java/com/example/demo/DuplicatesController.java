@@ -9,7 +9,7 @@ public class DuplicatesController {
 
   @GetMapping("/duplicates")
   public String duplicates(Model model) {
-    FindDuplicates fd = new FindDuplicates("normal.csv");
+    FindDuplicates fd = new FindDuplicates("csv/normal.csv");
 
     model.addAttribute("duplicates", fd.findDups());
     return "duplicates";
@@ -17,7 +17,7 @@ public class DuplicatesController {
 
   @GetMapping("/advanced-duplicates")
   public String duplicatesAdvanced(Model model) {
-    FindDuplicates fd = new FindDuplicates("advanced.csv");
+    FindDuplicates fd = new FindDuplicates("csv/advanced.csv");
 
     model.addAttribute("advancedDuplicates", fd.findDups());
     return "advanced-duplicates";
