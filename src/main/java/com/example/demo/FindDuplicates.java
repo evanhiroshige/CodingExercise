@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import org.apache.catalina.Loader;
 import org.apache.commons.codec.language.Metaphone;
 
 public class FindDuplicates {
@@ -26,14 +27,11 @@ public class FindDuplicates {
 
     Scanner scanner;
     try {
-      Path currentRelativePath = Paths.get("");
-      String s = currentRelativePath.toAbsolutePath().toString() + "/src/main/java/com/example/demo/";
-      scanner = new Scanner(new File(s + csv));
+      scanner = new Scanner(new File(getClass().getResource("/" + csv).getFile()));
+
     } catch (
         FileNotFoundException e) {
-      Path currentRelativePath = Paths.get("");
-      String s = currentRelativePath.toAbsolutePath().toString();
-      throw new IllegalArgumentException(s + "could not find file.");
+      throw new IllegalArgumentException();
     }
 
     scanner.useDelimiter("\n");
