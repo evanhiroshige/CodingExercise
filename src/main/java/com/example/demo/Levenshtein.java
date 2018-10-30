@@ -1,3 +1,5 @@
+package com.example.demo;
+
 // Levenshtein algo from https://rosettacode.org/wiki/Levenshtein_distance
 public class Levenshtein {
   public static int distance(String a, String b) {
