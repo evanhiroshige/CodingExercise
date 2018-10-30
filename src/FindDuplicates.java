@@ -50,6 +50,11 @@ public class FindDuplicates {
     for (int i = 1; i < a.length; i++) {
       String a1 = a[i];
       String b1 = b[i];
+      if (i == 4) {
+        a1 = a1.substring(0, a1.indexOf('@'));
+        b1 = b1.substring(0, b1.indexOf('@'));
+      }
+
       if (mp.isMetaphoneEqual(a1, b1)) {
         continue;
       }
@@ -62,7 +67,7 @@ public class FindDuplicates {
     for (int i = 0; i < distances.length - 1; i++) {
       for (int k = i + 1; k < distances.length - 1; k++) {
         distances[i][k] = getDistance(users.get(i), users.get(k));
-        if (distances[i][k] < 50) {
+        if (distances[i][k] < 40) {
           if (!duplicates.containsKey(users.get(i))) {
             duplicates.put(users.get(i), new ArrayList<>());
             nonDuplicates.remove(users.get(i));
