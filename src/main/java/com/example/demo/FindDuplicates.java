@@ -1,8 +1,9 @@
 package com.example.demo;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,10 +26,14 @@ public class FindDuplicates {
 
     Scanner scanner;
     try {
-      scanner = new Scanner(new File(csv));
+      Path currentRelativePath = Paths.get("");
+      String s = currentRelativePath.toAbsolutePath().toString() + "/src/main/java/com/example/demo/";
+      scanner = new Scanner(new File(s + csv));
     } catch (
         FileNotFoundException e) {
-      throw new IllegalArgumentException("could not find file.");
+      Path currentRelativePath = Paths.get("");
+      String s = currentRelativePath.toAbsolutePath().toString();
+      throw new IllegalArgumentException(s + "could not find file.");
     }
 
     scanner.useDelimiter("\n");
