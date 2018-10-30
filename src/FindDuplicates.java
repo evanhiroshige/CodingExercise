@@ -59,10 +59,12 @@ public class FindDuplicates {
           continue;
         }
         distances[i][k] = getDistance(users.get(i), users.get(k));
-
+        if (distances[i][k] < 50) {
+          System.out.println(Arrays.toString(users.get(i)));
+          System.out.println(Arrays.toString(users.get(k)));
+        }
       }
     }
-
     for (int[] arr : distances) {
       System.out.println(Arrays.toString(arr));
     }
