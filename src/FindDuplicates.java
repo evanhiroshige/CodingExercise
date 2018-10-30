@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import org.apache.commons.codec.language.Metaphone;
@@ -51,7 +52,25 @@ public class FindDuplicates {
   }
 
   public void findDups() {
-    // will want to compare everything to everything using distance helper
+    for (int i = 0; i < distances.length - 1; i++) {
+      for (int k = i; k < distances.length - 1; k++) {
+        if (i == k) {
+          distances[i][k] = Integer.MAX_VALUE;
+          continue;
+        }
+        distances[i][k] = getDistance(users.get(i), users.get(k));
+
+      }
+    }
+
+    for (int[] arr : distances) {
+      System.out.println(Arrays.toString(arr));
+    }
+  }
+
+  public static void main(String[] args) {
+    FindDuplicates fd = new FindDuplicates();
+    fd.findDups();
   }
 
 }
